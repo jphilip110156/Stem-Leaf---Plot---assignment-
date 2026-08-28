@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Stem-and-Leaf Plot Lesson</title>
+  <style>
+    :root{--navy:#17365d;--blue:#2563eb;--light:#eff6ff;--green:#15803d;--greenbg:#f0fdf4;--red:#b91c1c;--redbg:#fef2f2;--gold:#b45309;--ink:#172033;--muted:#526078;--line:#d7dfeb;--card:#fff}
+    *{box-sizing:border-box} body{margin:0;background:#f4f7fb;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+    .wrap{max-width:1050px;margin:auto;padding:22px}.hero{background:linear-gradient(135deg,var(--navy),#285c96);color:white;border-radius:18px;padding:28px;box-shadow:0 8px 24px #17365d24}
+    h1{margin:0 0 8px;font-size:clamp(1.75rem,4vw,2.5rem)}h2{color:var(--navy);margin-top:0}h3{margin-bottom:6px}.hero p{margin:0;max-width:800px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 4px 14px #17365d0d}.wide{grid-column:1/-1}
+    .key{display:inline-block;background:#fff7ed;border:2px solid #f59e0b;padding:10px 16px;border-radius:10px;font-weight:750;color:#7c2d12}.example{display:grid;grid-template-columns:auto 1fr;max-width:390px;border:2px solid var(--navy);border-radius:10px;overflow:hidden;margin:14px 0}.example div{padding:6px 12px}.example div:nth-child(odd){font-weight:800;text-align:right;border-right:2px solid var(--navy);background:var(--light)}
+    .steps{padding-left:22px}.steps li{margin:8px 0}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}.tab,button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:11px 16px;cursor:pointer}.tab{background:#e8edf5;color:var(--navy)}.tab.active{background:var(--navy);color:white}.tab:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+    .data{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}.chip{background:var(--light);border:1px solid #93c5fd;border-radius:8px;padding:6px 10px;font-weight:700}.practice-grid{display:grid;grid-template-columns:minmax(250px,1fr) minmax(300px,1.2fr);gap:20px}.entry{display:grid;grid-template-columns:90px 1fr;gap:8px 10px;align-items:center}.entry .head{font-weight:800;color:var(--navy);text-align:center}.entry input{width:100%;min-height:44px;border:2px solid #b8c4d6;border-radius:8px;padding:8px 10px;font:inherit}.entry input.stem{text-align:center;font-weight:800}.divider{border-left:3px solid var(--navy);padding-left:10px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.primary{background:var(--blue);color:white}.secondary{background:#e8edf5;color:var(--navy)}.answer{background:#7c3aed;color:white}.feedback{display:none;margin-top:16px;padding:14px;border-radius:10px;font-weight:650}.feedback.good{display:block;background:var(--greenbg);color:var(--green);border:1px solid #86efac}.feedback.try{display:block;background:var(--redbg);color:var(--red);border:1px solid #fca5a5}.hint{color:var(--muted);font-size:.95rem}.solution{display:none;margin-top:14px;background:#faf5ff;border:1px solid #c4b5fd;border-radius:10px;padding:14px}.solution.show{display:block}.mini{margin:8px 0;border-collapse:collapse}.mini td{padding:3px 9px}.mini td:first-child{font-weight:800;text-align:right;border-right:2px solid var(--navy)}footer{text-align:center;color:var(--muted);padding:22px 0 8px;font-size:.9rem}
+    .question{border:2px solid var(--line);border-radius:14px;padding:18px;margin:18px 0;background:#fbfdff}.qtitle{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.badge{background:var(--navy);color:white;border-radius:999px;padding:4px 10px;font-size:.85rem;font-weight:750}.qgrid{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(300px,1.2fr);gap:18px;margin-top:12px}.qfeedback{margin-top:10px;font-weight:750}.qfeedback.good{color:var(--green)}.qfeedback.try{color:var(--red)}
+    .student-info{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}.student-info label{font-weight:750;color:var(--navy)}.student-info input{min-height:44px;flex:1;min-width:220px;border:2px solid #b8c4d6;border-radius:8px;padding:8px 10px;font:inherit}.download{background:#0f766e;color:white}.download:disabled{background:#94a3b8;cursor:not-allowed}.print-note{font-size:.92rem;color:var(--muted)}
+    @media(max-width:760px){.grid,.practice-grid,.qgrid{grid-template-columns:1fr}.wide{grid-column:auto}.wrap{padding:12px}.hero,.card{padding:18px}.entry{grid-template-columns:72px 1fr}}
+    @media(prefers-reduced-motion:no-preference){.card,.chip{transition:transform .18s ease}.chip:hover{transform:translateY(-2px)}}
+    @media print{body{background:white}.wrap{max-width:none;padding:0}.hero,.grid>.card:not(#mixed-practice),footer,#mixed-practice>p,.actions,.print-note{display:none!important}.grid{display:block;margin:0}#mixed-practice{display:block!important;border:0;box-shadow:none;padding:0}#mixed-practice h2{font-size:20pt}.student-info input{border:0;border-bottom:1px solid #333;border-radius:0}.question{break-inside:avoid;page-break-inside:avoid;border:1px solid #555;margin:12px 0;padding:12px}.qgrid{grid-template-columns:1fr 1.2fr;gap:12px}.chip{padding:3px 6px}.entry input{border:1px solid #555!important;min-height:30px;padding:3px 6px}.feedback{display:block!important;border:2px solid #111!important;color:#111!important;background:white!important;font-size:14pt}.badge{color:#111;background:white;border:1px solid #111}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero"><h1>Stem-and-Leaf Plots</h1><p>Learn how to organize numerical data while keeping every original value. Then build your own plots with new randomized data.</p></section>
+  <div class="grid">
+    <section class="card"><h2>1. What is a stem-and-leaf plot?</h2><p>A stem-and-leaf plot separates each number into two parts:</p><ul><li><strong>Stem:</strong> the leading digit or digits.</li><li><strong>Leaf:</strong> the final digit.</li></ul><p class="key">Key: 4 | 7 means 47</p><p class="hint">For decimal practice, the key will show the correct place value.</p></section>
+    <section class="card"><h2>2. Watch an example</h2><p>Data: 21, 24, 24, 27, 32, 35, 39</p><div class="example" aria-label="Example stem-and-leaf plot"><div>2</div><div>1 4 4 7</div><div>3</div><div>2 5 9</div></div><p><strong>Key:</strong> 2 | 1 means 21. Notice that leaves are written in increasing order and repeated values are kept.</p></section>
+    <section class="card wide"><h2>3. Follow the steps</h2><ol class="steps"><li>Arrange the data from least to greatest.</li><li>Write <strong>all consecutive stems</strong> from the smallest stem to the largest stem.</li><li>If a stem has no data values, keep that row and leave its leaf space blank. This shows the true spread of the data.</li><li>Write the final digit as a leaf beside its stem.</li><li>Order the leaves from least to greatest and include a key.</li></ol></section>
+    <section class="card wide" id="practice"><h2>4. Build the plot</h2><p>Select a level. Type every consecutive stem and its leaves. Separate leaves with spaces (for example, <strong>1 4 4 7</strong>). If a stem has no leaves, enter the stem and leave the leaf box blank.</p>
+      <div class="tabs" role="tablist" aria-label="Practice level"><button class="tab active" data-mode="two" role="tab">2-Digit Numbers</button><button class="tab" data-mode="three" role="tab">3-Digit Numbers</button><button class="tab" data-mode="decimal" role="tab">Decimal Numbers</button></div>
+      <div class="practice-grid"><div><h3>Your data</h3><div id="data" class="data" aria-live="polite"></div><p id="key" class="key"></p><p class="hint">Tip: You may sort the numbers on paper before entering the plot.</p></div><div><h3>Your stem-and-leaf plot</h3><div class="entry" id="entry"><div class="head">Stem</div><div class="head divider">Leaves</div></div></div></div>
+      <div class="actions"><button id="check" class="primary">Check My Answer</button><button id="new" class="secondary">New Data Set</button><button id="show" class="answer">Show Answer</button></div><div id="feedback" class="feedback" role="status" aria-live="polite"></div><div id="solution" class="solution"></div>
+    </section>
+    <section class="card wide" id="mixed-practice"><h2>5. Mixed Practice: Five-Question Assignment</h2><p>Complete all five plots. The questions include a mixture of 2-digit, 3-digit, and decimal data. Enter every consecutive stem and leave the leaf box blank when a stem has no values.</p><div class="student-info"><label for="studentName">Student name:</label><input id="studentName" type="text" autocomplete="name" placeholder="Enter your name"></div><div id="mixedQuestions"></div><div class="actions"><button id="checkMixed" class="primary">Grade Assignment</button><button id="newMixed" class="secondary">Create 5 New Questions</button><button id="downloadPdf" class="download" disabled>Download Assignment as PDF</button></div><p class="print-note">After grading, select “Download Assignment as PDF,” then choose “Save as PDF” in the print window.</p><div id="mixedFeedback" class="feedback" role="status" aria-live="polite"></div></section>
+  </div><footer>Interactive mathematics lesson • Stem-and-leaf plots</footer>
+</main>
+<script>
+(() => {
+  const dataEl=document.getElementById('data'), keyEl=document.getElementById('key'), entryEl=document.getElementById('entry'), feedback=document.getElementById('feedback'), solution=document.getElementById('solution');
+  let mode='two', data=[], answer=[];
+  const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+  function uniqueData(generator,count){const out=[];while(out.length<count)out.push(generator());return out;}
+  function generate(){
+    if(mode==='two'){const start=rand(1,3)*10;data=uniqueData(()=>rand(start,start+59),12);data.push(start+rand(0,9),start+50+rand(0,9));}
+    if(mode==='three'){const start=rand(10,35)*10;data=uniqueData(()=>rand(start,start+79),12);data.push(start+rand(0,9),start+70+rand(0,9));}
+    if(mode==='decimal'){const start=rand(1,4);data=uniqueData(()=>Math.round((start+Math.random()*5.9)*10)/10,12);data.push(start+rand(0,9)/10,start+5+rand(0,9)/10);}
+    data.sort(()=>Math.random()-.5); buildAnswer(); render();
+  }
+  function parts(v){
+    if(mode==='two') return [String(Math.floor(v/10)),String(v%10)];
+    if(mode==='three') return [String(Math.floor(v/10)),String(v%10)];
+    const tenths=Math.round(v*10); return [String(Math.floor(tenths/10)),String(tenths%10)];
+  }
+  function buildAnswer(){const map=new Map();[...data].sort((a,b)=>a-b).forEach(v=>{const [s,l]=parts(v);if(!map.has(Number(s)))map.set(Number(s),[]);map.get(Number(s)).push(l)});const stems=[...map.keys()],min=Math.min(...stems),max=Math.max(...stems);answer=[];for(let s=min;s<=max;s++)answer.push({stem:String(s),leaves:map.get(s)||[]});}
+  function render(){
+    dataEl.innerHTML=data.map(v=>`<span class="chip">${mode==='decimal'?v.toFixed(1):v}</span>`).join('');
+    keyEl.textContent=mode==='decimal'?'Key: 4 | 7 means 4.7':'Key: 4 | 7 means 47';
+    entryEl.innerHTML='<div class="head">Stem</div><div class="head divider">Leaves</div>'+answer.map((_,i)=>`<input class="stem" inputmode="numeric" aria-label="Stem row ${i+1}"><input class="leaves divider" inputmode="numeric" aria-label="Leaves row ${i+1}" placeholder="Separate leaves with spaces">`).join('');
+    feedback.className='feedback';feedback.textContent='';solution.className='solution';solution.innerHTML='';document.getElementById('show').textContent='Show Answer';
+  }
+  function digits(s){return (s.match(/\d/g)||[]).join(' ')}
+  function check(){const stems=[...entryEl.querySelectorAll('.stem')], leaves=[...entryEl.querySelectorAll('.leaves')];let right=0;const total=answer.length*2;answer.forEach((a,i)=>{const sOk=stems[i].value.trim()===a.stem,lOk=digits(leaves[i].value)===a.leaves.join(' ');stems[i].style.borderColor=sOk?'#22c55e':'#ef4444';leaves[i].style.borderColor=lOk?'#22c55e':'#ef4444';right+=sOk+lOk});feedback.className='feedback '+(right===total?'good':'try');feedback.textContent=right===total?'Excellent! Your stems and ordered leaves are all correct.':'You have '+right+' of '+total+' parts correct. Check the red boxes, keep repeated leaves, and put leaves in increasing order.';}
+  function show(){solution.innerHTML='<strong>Correct plot</strong><table class="mini">'+answer.map(a=>`<tr><td>${a.stem}</td><td>${a.leaves.join(' ')}</td></tr>`).join('')+'</table><strong>'+keyEl.textContent+'</strong>';solution.classList.toggle('show');document.getElementById('show').textContent=solution.classList.contains('show')?'Hide Answer':'Show Answer';}
+  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');mode=btn.dataset.mode;generate()}));
+  document.getElementById('check').addEventListener('click',check);document.getElementById('new').addEventListener('click',generate);document.getElementById('show').addEventListener('click',show);generate();
+
+  let mixed=[];
+  function makeQuestion(m){
+    let values;
+    if(m==='two'){const start=rand(1,3)*10;values=uniqueData(()=>rand(start,start+49),10);values.push(start+rand(0,9),start+40+rand(0,9));}
+    if(m==='three'){const start=rand(10,35)*10;values=uniqueData(()=>rand(start,start+69),10);values.push(start+rand(0,9),start+60+rand(0,9));}
+    if(m==='decimal'){const start=rand(1,4);values=uniqueData(()=>Math.round((start+Math.random()*4.9)*10)/10,10);values.push(start+rand(0,9)/10,start+4+rand(0,9)/10);}
+    values.sort(()=>Math.random()-.5);
+    const map=new Map();[...values].sort((a,b)=>a-b).forEach(v=>{const n=m==='decimal'?Math.round(v*10):v,s=Math.floor(n/10),l=n%10;if(!map.has(s))map.set(s,[]);map.get(s).push(String(l));});
+    const stems=[...map.keys()],rows=[];for(let s=Math.min(...stems);s<=Math.max(...stems);s++)rows.push({stem:String(s),leaves:map.get(s)||[]});return {mode:m,values,rows};
+  }
+  function label(m){return m==='two'?'2-Digit Numbers':m==='three'?'3-Digit Numbers':'Decimal Numbers'}
+  function mixedKey(m){return m==='decimal'?'Key: 4 | 7 means 4.7':'Key: 4 | 7 means 47'}
+  function generateMixed(){
+    const modes=['two','three','decimal','two','decimal'].sort(()=>Math.random()-.5);mixed=modes.map(makeQuestion);
+    document.getElementById('mixedQuestions').innerHTML=mixed.map((q,qi)=>`<article class="question"><div class="qtitle"><h3>Question ${qi+1}</h3><span class="badge">${label(q.mode)}</span></div><div class="qgrid"><div><div class="data">${q.values.map(v=>`<span class="chip">${q.mode==='decimal'?v.toFixed(1):v}</span>`).join('')}</div><p class="key">${mixedKey(q.mode)}</p></div><div class="entry"><div class="head">Stem</div><div class="head divider">Leaves</div>${q.rows.map((_,ri)=>`<input class="stem mstem" data-q="${qi}" data-r="${ri}" inputmode="numeric" aria-label="Question ${qi+1}, stem row ${ri+1}"><input class="leaves divider mleaves" data-q="${qi}" data-r="${ri}" inputmode="numeric" aria-label="Question ${qi+1}, leaves row ${ri+1}" placeholder="Separate leaves with spaces">`).join('')}</div></div><div id="qfeedback${qi}" class="qfeedback" aria-live="polite"></div></article>`).join('');
+    const mf=document.getElementById('mixedFeedback');mf.className='feedback';mf.textContent='';document.getElementById('downloadPdf').disabled=true;
+  }
+  function checkMixed(){let complete=0;mixed.forEach((q,qi)=>{let correct=true;q.rows.forEach((row,ri)=>{const s=document.querySelector(`.mstem[data-q="${qi}"][data-r="${ri}"]`),l=document.querySelector(`.mleaves[data-q="${qi}"][data-r="${ri}"]`),sOk=s.value.trim()===row.stem,lOk=digits(l.value)===row.leaves.join(' ');s.style.borderColor=sOk?'#22c55e':'#ef4444';l.style.borderColor=lOk?'#22c55e':'#ef4444';if(!sOk||!lOk)correct=false;});const f=document.getElementById('qfeedback'+qi);f.className='qfeedback '+(correct?'good':'try');f.textContent=correct?'Correct!':'Incorrect';if(correct)complete++;});const percent=complete*20,mf=document.getElementById('mixedFeedback');mf.className='feedback '+(complete===5?'good':'try');mf.textContent=`Assignment grade: ${complete}/5 (${percent}%) • Graded ${new Date().toLocaleString()}`;document.getElementById('downloadPdf').disabled=false;}
+  function downloadPdf(){document.querySelectorAll('#mixed-practice input').forEach(input=>input.setAttribute('value',input.value));window.print();}
+  document.getElementById('checkMixed').addEventListener('click',checkMixed);document.getElementById('newMixed').addEventListener('click',generateMixed);document.getElementById('downloadPdf').addEventListener('click',downloadPdf);document.getElementById('mixedQuestions').addEventListener('input',()=>{const btn=document.getElementById('downloadPdf'),mf=document.getElementById('mixedFeedback');if(!btn.disabled){btn.disabled=true;mf.className='feedback try';mf.textContent='Answers changed. Grade the assignment again before downloading the PDF.';}});generateMixed();
+})();
+</script>
+</body>
+</html>
